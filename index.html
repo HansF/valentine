@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#ff69b4">
+  <title>Valentina's Valentine Sparkle Card</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header id="header">
+      <button id="btn-back" class="header-btn" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div id="page-title">
+        <span id="page-number">1 / 10</span>
+        <span id="plate-title">Once Upon a Heart</span>
+      </div>
+      <button id="btn-menu" class="header-btn" aria-label="Menu">
+        <svg viewBox="0 0 24 24" width="22" height="22"><circle cx="12" cy="5" r="1.5" fill="currentColor"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/><circle cx="12" cy="19" r="1.5" fill="currentColor"/></svg>
+      </button>
+    </header>
+
+    <!-- Canvas Area -->
+    <div id="canvas-container">
+      <div id="canvas-frame">
+        <canvas id="plate"></canvas>
+        <canvas id="drawing"></canvas>
+        <canvas id="glitter"></canvas>
+      </div>
+    </div>
+
+    <!-- Bottom Toolbar -->
+    <div id="toolbar">
+      <!-- Color Palette -->
+      <div id="color-palette">
+        <button class="color-swatch active" data-color="#FF1493" style="background:#FF1493" aria-label="Deep Pink"></button>
+        <button class="color-swatch" data-color="#FF69B4" style="background:#FF69B4" aria-label="Hot Pink"></button>
+        <button class="color-swatch" data-color="#FF0000" style="background:#FF0000" aria-label="Red"></button>
+        <button class="color-swatch" data-color="#FF6347" style="background:#FF6347" aria-label="Tomato"></button>
+        <button class="color-swatch" data-color="#FF8C00" style="background:#FF8C00" aria-label="Orange"></button>
+        <button class="color-swatch" data-color="#FFD700" style="background:#FFD700" aria-label="Gold"></button>
+        <button class="color-swatch" data-color="#ADFF2F" style="background:#ADFF2F" aria-label="Green Yellow"></button>
+        <button class="color-swatch" data-color="#00CED1" style="background:#00CED1" aria-label="Turquoise"></button>
+        <button class="color-swatch" data-color="#6495ED" style="background:#6495ED" aria-label="Cornflower"></button>
+        <button class="color-swatch" data-color="#9370DB" style="background:#9370DB" aria-label="Purple"></button>
+        <button class="color-swatch" data-color="#DA70D6" style="background:#DA70D6" aria-label="Orchid"></button>
+        <button class="color-swatch" data-color="#FFFFFF" style="background:#FFFFFF" aria-label="White"></button>
+        <button class="color-swatch" data-color="#F5DEB3" style="background:#F5DEB3" aria-label="Wheat"></button>
+        <button class="color-swatch" data-color="#DEB887" style="background:#DEB887" aria-label="Tan"></button>
+        <button class="color-swatch" data-color="#8B4513" style="background:#8B4513" aria-label="Brown"></button>
+        <button class="color-swatch" data-color="#000000" style="background:#000000" aria-label="Black"></button>
+      </div>
+
+      <!-- Tool Buttons -->
+      <div id="tool-buttons">
+        <button class="tool-btn active" data-tool="brush" aria-label="Brush">
+          <svg viewBox="0 0 32 32" width="28" height="28"><path d="M24 4l4 4-16 16H8v-4L24 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M20 8l4 4" stroke="currentColor" stroke-width="2"/></svg>
+          <span>Brush</span>
+        </button>
+        <button class="tool-btn" data-tool="fill" aria-label="Fill">
+          <svg viewBox="0 0 32 32" width="28" height="28"><path d="M7 22l8-18 8 18c0 3-3.5 6-8 6s-8-3-8-6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M10 20h12" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span>Fill</span>
+        </button>
+        <button class="tool-btn" data-tool="glitter" aria-label="Glitter">
+          <svg viewBox="0 0 32 32" width="28" height="28"><path d="M16 2l2 8 8 2-8 2-2 8-2-8-8-2 8-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="25" cy="7" r="2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="7" cy="25" r="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+          <span>Glitter</span>
+        </button>
+        <button class="tool-btn" data-tool="eraser" aria-label="Eraser">
+          <svg viewBox="0 0 32 32" width="28" height="28"><rect x="6" y="14" width="20" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2" transform="rotate(-30 16 19)"/><line x1="10" y1="26" x2="26" y2="26" stroke="currentColor" stroke-width="2"/></svg>
+          <span>Eraser</span>
+        </button>
+      </div>
+
+      <!-- Brush Size Slider -->
+      <div id="size-control">
+        <span class="size-label">Size</span>
+        <input type="range" id="brush-size" min="2" max="40" value="8" aria-label="Brush size">
+        <span id="size-value" class="size-label">8</span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div id="action-buttons">
+        <button id="btn-undo" class="action-btn" aria-label="Undo">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M3 10h10c3.3 0 6 2.7 6 6s-2.7 6-6 6H9" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M7 6l-4 4 4 4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="btn-redo" class="action-btn" aria-label="Redo">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M21 10H11c-3.3 0-6 2.7-6 6s2.7 6 6 6h4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M17 6l4 4-4 4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="btn-seal" class="action-btn seal-btn" aria-label="Seal this page">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"/></svg>
+          <span>Seal</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Reward Overlay -->
+    <div id="reward-overlay" class="hidden">
+      <div id="reward-content">
+        <div id="reward-sparkles"></div>
+        <div id="reward-text"></div>
+        <button id="reward-continue" class="candy-btn">Next Page</button>
+        <button id="reward-download" class="candy-btn secondary hidden">Download Card</button>
+      </div>
+    </div>
+
+    <!-- Page Picker Overlay -->
+    <div id="page-picker" class="hidden">
+      <div id="picker-content">
+        <h2>Your Valentine Cards</h2>
+        <div id="page-grid"></div>
+        <button id="picker-close" class="candy-btn">Close</button>
+        <button id="btn-download-all" class="candy-btn secondary hidden">Download All</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
