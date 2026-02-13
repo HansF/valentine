@@ -20,9 +20,16 @@
   ];
 
   const PRAISE = [
-    'Beautiful!', 'Gorgeous!', 'Amazing!', 'So Pretty!',
-    'Wonderful!', 'Sparkly!', 'Lovely!', 'Stunning!',
-    'Magical!', 'You did it!'
+    'Daddy loves you so much, and Daddy is really proud of you, little girl.',
+    'This drawing is beautiful, little girl — you made it with your own special magic.',
+    'Daddy can see how much care you put into this, little girl. It makes Daddy\u2019s heart happy.',
+    'You did an amazing job, little girl. Daddy\u2019s proud of how hard you worked.',
+    'Daddy loves how you chose the colors, little girl — that\u2019s such a smart, creative choice.',
+    'Wow, little girl\u2026 this is truly gorgeous. Daddy thinks you\u2019re such an artist.',
+    'You\u2019re getting better and better, little girl, and Daddy is proud of you every time you try.',
+    'Daddy loves you exactly as you are, little girl, and Daddy loves the things you create.',
+    'Thank you for showing Daddy your drawing, little girl — Daddy feels lucky to see your imagination.',
+    'This is a beautiful drawing, little girl, and Daddy is so proud of you.',
   ];
 
   const CANVAS_W = 500;

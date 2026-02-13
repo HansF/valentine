@@ -417,10 +417,10 @@ body::before {
 }
 
 #reward-text {
-  font-size: 24px;
-  font-weight: 800;
+  font-size: 17px;
+  font-weight: 700;
   margin-bottom: 24px;
-  line-height: 1.4;
+  line-height: 1.5;
   background: linear-gradient(135deg, var(--pink-deep), var(--lilac));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
