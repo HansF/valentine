@@ -58,6 +58,8 @@
   const plateTitle = $('#plate-title');
   const brushSizeInput = $('#brush-size');
   const sizeValue = $('#size-value');
+  const brushHardnessInput = $('#brush-hardness');
+  const hardnessControl = $('#hardness-control');
   const btnUndo = $('#btn-undo');
   const btnRedo = $('#btn-redo');
   const btnSeal = $('#btn-seal');
@@ -79,6 +81,7 @@
   let currentTool = 'brush';
   let currentColor = '#FF1493';
   let brushSize = 8;
+  let brushHardness = 1; // 0 = soft airbrush, 1 = hard edge
   let dpr = Math.min(window.devicePixelRatio || 1, 3);
 
   // Drawing state
@@ -342,13 +345,35 @@
     },
 
     stampCircle(x, y, radius, pressure) {
+      const r = Math.max(0.5, radius);
       drawCtx.save();
       drawCtx.globalCompositeOperation = 'source-over';
-      drawCtx.fillStyle = currentColor;
-      drawCtx.globalAlpha = 0.75 + pressure * 0.25;
-      drawCtx.beginPath();
-      drawCtx.arc(x, y, Math.max(0.5, radius), 0, Math.PI * 2);
-      drawCtx.fill();
+
+      if (brushHardness >= 0.95) {
+        // Hard brush — solid fill (original behavior)
+        drawCtx.fillStyle = currentColor;
+        drawCtx.globalAlpha = 0.75 + pressure * 0.25;
+        drawCtx.beginPath();
+        drawCtx.arc(x, y, r, 0, Math.PI * 2);
+        drawCtx.fill();
+      } else {
+        // Soft brush — radial gradient for airbrush effect
+        // hardness controls where the gradient starts fading
+        const innerStop = brushHardness * 0.8;
+        const alpha = 0.3 + pressure * 0.35 + brushHardness * 0.25;
+        const grad = drawCtx.createRadialGradient(x, y, 0, x, y, r);
+        const rgb = DrawingEngine.parseColor(currentColor);
+        const c = rgb ? `${rgb.r},${rgb.g},${rgb.b}` : '255,20,147';
+        grad.addColorStop(0, `rgba(${c},${alpha})`);
+        grad.addColorStop(innerStop, `rgba(${c},${alpha * 0.7})`);
+        grad.addColorStop(1, `rgba(${c},0)`);
+        drawCtx.fillStyle = grad;
+        drawCtx.globalAlpha = 1;
+        drawCtx.beginPath();
+        drawCtx.arc(x, y, r, 0, Math.PI * 2);
+        drawCtx.fill();
+      }
+
       drawCtx.restore();
     },
 
@@ -1198,12 +1223,15 @@
         btn.classList.add('active');
         currentTool = btn.dataset.tool;
 
-        // Show/hide size control for relevant tools
+        // Show/hide size & hardness controls for relevant tools
         const sizeControl = $('#size-control');
         if (currentTool === 'fill') {
           sizeControl.style.display = 'none';
+          hardnessControl.style.display = 'none';
         } else {
           sizeControl.style.display = 'flex';
+          // Show hardness for brush and glitter, hide for eraser
+          hardnessControl.style.display = (currentTool === 'eraser') ? 'none' : 'flex';
         }
       });
     });
@@ -1212,6 +1240,11 @@
     brushSizeInput.addEventListener('input', () => {
       brushSize = parseInt(brushSizeInput.value);
       sizeValue.textContent = brushSize;
+    });
+
+    // Brush hardness
+    brushHardnessInput.addEventListener('input', () => {
+      brushHardness = parseInt(brushHardnessInput.value) / 100;
     });
 
     // Undo/redo
