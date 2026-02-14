@@ -16,7 +16,8 @@
     { id: 7, file: '006.png', title: 'Venice Gondola' },
     { id: 8, file: '007.png', title: 'Movie Night' },
     { id: 9, file: '009.png', title: 'Rainbow Promise' },
-    { id: 10, file: '010.png', title: 'Happy Valentine' },
+    { id: 10, file: '010.png', title: 'Disco Dance Party' },
+    { id: 11, file: '011.png', title: 'Happy Valentine' },
   ];
 
   const PRAISE = [
