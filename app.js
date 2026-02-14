@@ -1317,10 +1317,8 @@
     UndoManager.updateButtons();
   }
 
-  // ── IOSInstallBanner ────────────────────────────────────────
-  const IOSInstallBanner = {
-    DISMISS_KEY: 'valentine_ios_banner_dismissed',
-
+  // ── IOSInstallHint (inline in page picker) ─────────────────
+  const IOSInstallHint = {
     isIOS() {
       return /iP(hone|ad|od)/.test(navigator.userAgent) ||
         (navigator.userAgent.includes('Mac') && 'ontouchend' in document);
@@ -1331,45 +1329,10 @@
         window.matchMedia('(display-mode: standalone)').matches;
     },
 
-    wasDismissed() {
-      try { return localStorage.getItem(this.DISMISS_KEY) === '1'; }
-      catch { return false; }
-    },
-
-    dismiss() {
-      const banner = $('#ios-install-banner');
-      if (banner) banner.classList.add('hidden');
-      try { localStorage.setItem(this.DISMISS_KEY, '1'); }
-      catch { /* ignore */ }
-    },
-
-    show() {
-      const banner = $('#ios-install-banner');
-      if (banner) banner.classList.remove('hidden');
-    },
-
     init() {
       if (!this.isIOS() || this.isStandalone()) return;
-
-      // Show install link in page picker menu
-      const installBtn = $('#btn-install-app');
-      if (installBtn) {
-        installBtn.classList.remove('hidden');
-        installBtn.addEventListener('click', () => {
-          pagePicker.classList.add('hidden');
-          this.show();
-        });
-      }
-
-      // Auto-show banner on first visit (not yet dismissed)
-      if (!this.wasDismissed()) {
-        setTimeout(() => this.show(), 3000);
-      }
-
-      const closeBtn = $('#ios-banner-close');
-      if (closeBtn) {
-        closeBtn.addEventListener('click', () => this.dismiss());
-      }
+      const hint = $('#btn-install-app');
+      if (hint) hint.classList.remove('hidden');
     },
   };
 
@@ -1382,7 +1345,7 @@
     await PlateManager.renderCurrent();
     PersistenceManager.restoreDrawing();
     PlateManager.preloadAll();
-    IOSInstallBanner.init();
+    IOSInstallHint.init();
   }
 
   // Start when DOM is ready

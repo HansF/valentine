@@ -1,7 +1,7 @@
 {
   "name": "Valentina's Valentine Sparkle Card",
   "short_name": "Valentine Card",
-  "start_url": "/index.html",
+  "start_url": ".",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#FF69B4",
